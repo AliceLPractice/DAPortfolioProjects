@@ -15,10 +15,33 @@ This is an interesting task that builds up skills like business Intelligence.
 Total records: 541909
 
 --Problems found:
-1. Removed duplicates by InvoiceNo+StockCode+InvoiceDate :10625
+1. Removed duplicates by InvoiceNo+StockCode+InvoiceDate :10625 records
+
 
 2. EDA(Exploratory data analysis)-Explored empty values/negative quantity and unit price
-	- negative quantity 
+	--negative quantity
+		possible reason: Refunds/Returns/Business Activity(?)
+		Other types:
+			D - Discount
+			M - Manual
+			POST - Postage
+			CRUK - CRUK Commission
+			AMAZONFEE - AMAZON FEE
+			S - SAMPLES
+			DOT - DOTCOM POSTAGE
+			C2 - Carriage
+		
+	--negative quantity with zero unit price
+		possible reason: Damage/Bad Quality/Data or Human Error/Promotions(?)
+		
+		note: 
+		it's important to closely monitor invoices with negative quantities. Regular reconciliation and audits of invoices can help identify any anomalies, errors, or potential fraud. Proper documentation and internal control or trainings are essential to maintain the integrity of financial records.
+		
+		In addition, addressing customer concerns and inquiries promptly is vital in situations involving returns or refunds. Clear communication with customers regarding the reasons for negative quantities or zero prices can help maintain trust and satisfaction in e-commerce transactions.
+
+	Follow-up: add additional column - description2 with possible reason and filling empty cells correspondingly.
+	=IF(ISBLANK([@Description2]),[@Description],[@Description2])
+
 
 3. more than 20k transactions cannot be loaded after mainpulated by Power Query
 	-Casued by invalid invoice date format 
@@ -34,7 +57,7 @@ Total records: 541909
 		
 		=TEXT(DATE(RIGHT(A1,4),LEFT(A1,2),MID(A1,4,2)),"DD/MM/YYYY") & " " & TEXT(TIME(HOUR($E2)+3, MINUTE($E2), SECOND($E2)), "HH:MM:SS") & " GMT+00:00"
 
-4. Spilted invoice date and time
 
+4. Spilted invoice date and time
 
 
