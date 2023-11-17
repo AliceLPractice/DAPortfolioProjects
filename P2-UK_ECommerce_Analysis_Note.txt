@@ -1,0 +1,66 @@
+Contains orders from an E-commerce site (UK Retailer), with various products and orders. 
+https://www.kaggle.com/datasets/atharvaarya25/e-commerce-analysis-uk
+
+Try starting with EDA and applying different functions to know more about the data. 
+The dataset is tricky as it contains all the problems that an actual site may have.
+
+Some hints to know what problems the dataset has:
+Contains duplicates!! Check for it and remove them 
+Contains missing values 
+Has negative unit price, try to guess what could be the reason
+Has negative quantity, try to guess what could be the reason
+Apply a prescriptive analysis approach to data and find ways to increase sales.
+This is an interesting task that builds up skills like business Intelligence.
+----------------------------------------------
+Total records: 541909
+
+--Problems found:
+1. Removed duplicates by InvoiceNo+StockCode+InvoiceDate :10625 records
+
+2. EDA(Exploratory data analysis)-Explored empty values/negative quantity and unit price
+	--negative quantity
+		possible reason: Refunds/Returns/Business Activity(?)
+		Other types:
+			D - Discount
+			M - Manual
+			POST - Postage
+			CRUK - CRUK Commission
+			AMAZONFEE - AMAZON FEE
+			S - SAMPLES
+			DOT - DOTCOM POSTAGE
+			C2 - Carriage
+		
+	--negative quantity with zero unit price
+		possible reason: Damage/Bad Quality/Data or Human Error/Promotions(?)
+		
+		note: 
+		it's important to monitor invoices with negative quantities closely. Regular reconciliation and audits of invoices can help identify any anomalies, errors, or potential fraud. Proper documentation and internal control or training are essential to maintain the integrity of financial records.
+		
+		In addition, addressing customer concerns and inquiries promptly is vital in situations involving returns or refunds. Clear communication with customers regarding the reasons for negative quantities or zero prices can help maintain trust and satisfaction in e-commerce transactions.
+
+	Follow-up: add an additional column - description2 with possible reason and fill empty cells correspondingly.
+	=IF(ISBLANK([@Description2]),[@Description],[@Description2])
+
+
+3. more than 20k transactions cannot be loaded after manipulated by Power Query
+	-Caused by invalid invoice date format 
+	 -Expected: dd/mm/yyyy, some of them m/dd/yyyy or mm/dd/yyyy
+
+		--solution: check if m/dd/yyyy or mm/dd/yyyy--
+		=IF(ISBLANK([@InvoiceDate]),"",IF(LEN([@InvoiceDate])=9,DATEVALUE(TEXT(DATE(RIGHT([@InvoiceDate],4),LEFT([@InvoiceDate],1),MID([@InvoiceDate],4,2)),"DD/MM/YYYY"),DATEVALUE(TEXT(DATE(RIGHT([@InvoiceDate],4),LEFT([@InvoiceDate],2),MID([@InvoiceDate],4,2)),"DD/MM/YYYY")))))
+		
+		part of the checking doesn't work, convert m/dd/yyyy to mm/dd/yyyy
+		=IF(ISBLANK([@InvoiceDate]),"",IF(LEN([@InvoiceDate])=9,CONCAT("0",[@InvoiceDate])))
+		=IF(ISBLANK($E55392),"",IF(LEN($E55392)=9,CONCAT("0",$E55392)))
+		=IF(ISBLANK([@InvoiceDate2]),"",IF(LEN([@InvoiceDate2])=9,DATEVALUE(TEXT(DATE(RIGHT([@InvoiceDate2],4),LEFT([@InvoiceDate2],1),MID([@InvoiceDate2],4,2)),"DD/MM/YYYY"),TEXT(DATE(RIGHT([@InvoiceDate2],4),LEFT([@InvoiceDate2],2),MID([@InvoiceDate2],4,2)),"DD/MM/YYYY"))))
+		
+		=TEXT(DATE(RIGHT(A1,4),LEFT(A1,2),MID(A1,4,2)),"DD/MM/YYYY") & " " & TEXT(TIME(HOUR($E2)+3, MINUTE($E2), SECOND($E2)), "HH:MM:SS") & " GMT+00:00"
+
+
+4. Spilted invoice date and time
+-------------------
+in Excel
+1. Create pivot tables for 2010 and 2011
+2. Summarize and filter necessary figures (by country, by month and year)
+3. Calculation applied
+
