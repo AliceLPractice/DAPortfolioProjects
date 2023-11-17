@@ -17,7 +17,6 @@ Total records: 541909
 --Problems found:
 1. Removed duplicates by InvoiceNo+StockCode+InvoiceDate :10625 records
 
-
 2. EDA(Exploratory data analysis)-Explored empty values/negative quantity and unit price
 	--negative quantity
 		possible reason: Refunds/Returns/Business Activity(?)
@@ -35,16 +34,16 @@ Total records: 541909
 		possible reason: Damage/Bad Quality/Data or Human Error/Promotions(?)
 		
 		note: 
-		it's important to closely monitor invoices with negative quantities. Regular reconciliation and audits of invoices can help identify any anomalies, errors, or potential fraud. Proper documentation and internal control or trainings are essential to maintain the integrity of financial records.
+		it's important to monitor invoices with negative quantities closely. Regular reconciliation and audits of invoices can help identify any anomalies, errors, or potential fraud. Proper documentation and internal control or training are essential to maintain the integrity of financial records.
 		
 		In addition, addressing customer concerns and inquiries promptly is vital in situations involving returns or refunds. Clear communication with customers regarding the reasons for negative quantities or zero prices can help maintain trust and satisfaction in e-commerce transactions.
 
-	Follow-up: add additional column - description2 with possible reason and filling empty cells correspondingly.
+	Follow-up: add an additional column - description2 with possible reason and fill empty cells correspondingly.
 	=IF(ISBLANK([@Description2]),[@Description],[@Description2])
 
 
-3. more than 20k transactions cannot be loaded after mainpulated by Power Query
-	-Casued by invalid invoice date format 
+3. more than 20k transactions cannot be loaded after manipulated by Power Query
+	-Caused by invalid invoice date format 
 	 -Expected: dd/mm/yyyy, some of them m/dd/yyyy or mm/dd/yyyy
 
 		--solution: check if m/dd/yyyy or mm/dd/yyyy--
@@ -59,5 +58,9 @@ Total records: 541909
 
 
 4. Spilted invoice date and time
-
+-------------------
+in Excel
+1. Create pivot tables for 2010 and 2011
+2. Summarize and filter necessary figures (by country, by month and year)
+3. Calculation applied
 
