@@ -1,4 +1,4 @@
-# DAPracticeProjects#
+# DA/PowerBI/Tableau_PracticeProjects#
 --P1 Cleaned Covid Death and Vaccinations
 Link to Cleaned Data:
 https://kaggle.com/datasets/1ecd891f1dfdfcf5a4d478eaf21bbf2a4a49f1c27d2a87b8845de42750c1955a
